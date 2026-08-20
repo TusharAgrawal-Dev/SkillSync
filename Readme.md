@@ -526,14 +526,6 @@ I am a Computer Engineering graduate focused on building backend and full-stack 
 
 ---
 
-## 📄 License
-
-This project is intended for educational and portfolio purposes.
-
-Add a specific open-source license such as **MIT** if you intend to allow others to use, modify, and distribute the project under those terms.
-
----
-
 <p align="center">
   Built with Java, Spring Boot, React, Spring AI & Google Gemini
 </p>
