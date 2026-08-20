@@ -487,7 +487,6 @@ Add screenshots of the application here to showcase the user interface.
 ### ATS Analysis
 
 ![ATS Analysis](Screenshots/ATS-Score.png)
-```
 
 ---
 
