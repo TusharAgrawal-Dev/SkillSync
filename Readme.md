@@ -184,6 +184,7 @@ Make sure the following are installed:
 * **Node.js 18+**
 * **npm**
 * A **Google Gemini API key**
+* **Docker Desktop** with Docker Compose
 
 Verify your installations:
 
@@ -243,7 +244,24 @@ spring.ai.google.genai.api-key=${GEMINI_API_KEY}
 
 ---
 
-## 3. Start the Spring Boot Backend
+## 3. Run the Application with Docker Compose
+
+SkillSync is containerized as two services:
+
+- **Backend:** Spring Boot + Java 21 on port `8080`
+- **Frontend:** React + Vite on port `5173`
+
+### Configure the Gemini API Key
+
+Create a `.env` file in the project root:
+
+```env
+GEMINI_API_KEY=your_api_key_here
+```
+
+Never commit `.env` to GitHub. Use `.env.example` as a safe template.
+
+### Build the Backend JAR
 
 Open a terminal in:
 
@@ -254,48 +272,76 @@ SkillSync/SkillSync
 Run:
 
 ```bash
-./mvnw spring-boot:run
+./mvnw clean package -DskipTests
 ```
 
 On Windows:
 
 ```cmd
-mvnw.cmd spring-boot:run
+mvnw.cmd clean package -DskipTests
 ```
 
-The backend starts on:
+The JAR is generated under:
+
+```text
+SkillSync/SkillSync/target/
+```
+
+### Build Docker Images
+
+Build the backend image:
+
+```bash
+docker build -t skillsync-backend ./SkillSync
+```
+
+Build the frontend image:
+
+```bash
+docker build -t skillsync-frontend ./SkillSyncUI
+```
+
+### Start Both Containers
+
+From the project root:
+
+```bash
+docker compose up -d
+```
+
+Check running containers:
+
+```bash
+docker ps
+```
+
+View application logs:
+
+```bash
+docker compose logs -f
+```
+
+### Access the Application
+
+Frontend:
+
+```text
+http://localhost:5173
+```
+
+Backend:
 
 ```text
 http://localhost:8080
 ```
 
----
-
-## 4. Start the React Frontend
-
-Open a second terminal in:
-
-```text
-SkillSync/SkillSyncUI
-```
-
-Install dependencies:
+### Stop the Application
 
 ```bash
-npm install
+docker compose down
 ```
 
-Start the development server:
-
-```bash
-npm run dev
-```
-
-The frontend will be available at:
-
-```text
-http://localhost:5173
-```
+> **Note:** Because the backend Dockerfile uses the already-built Maven JAR, rebuild the JAR and Docker image after making backend code changes.
 
 ---
 
@@ -453,7 +499,6 @@ Future improvements may include:
 * [ ] Support multiple job descriptions and resume comparison.
 * [ ] Add user authentication and saved analysis history.
 * [ ] Improve semantic matching beyond simple keyword identification.
-* [ ] Add Docker-based deployment for the frontend and backend.
 * [ ] Add automated tests for API endpoints and resume-processing workflows.
 
 ---
@@ -507,6 +552,9 @@ This project demonstrates practical experience with:
 * **AI prompt engineering**
 * **Structured JSON processing**
 * **Frontend state management**
+* **Docker**
+* **Docker Compose**
+* **Containerized React + Spring Boot deployment**
 * **Environment-based configuration**
 
 ---
